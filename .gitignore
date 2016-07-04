@@ -1,0 +1,7 @@
+*~
+vendor/*
+.*~
+mouf/*
+composer.lock
+phpunit.xml
+build/

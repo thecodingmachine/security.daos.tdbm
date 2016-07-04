@@ -1,0 +1,53 @@
+{
+	"name" : "mouf/security.daos.tdbm",
+	"description" : "This package contains a basic user/role/right database model for TDBM.",
+	"keywords" : [
+		"ORM",
+		"mouf",
+		"persistance",
+		"DAO",
+		"bean",
+		"model"
+	],
+	"homepage" : "http://mouf-php.com/packages/mouf/security.daos.tdbm",
+	"type" : "mouf-library",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "David Négrier",
+			"email" : "d.negrier@thecodingmachine.com",
+			"homepage" : "http://mouf-php.com"
+		}
+	],
+	"require" : {
+		"php" : ">=7.0",
+	    "mouf/database.tdbm" : "~4.0",
+		"mouf/database.patcher": "~2.0"
+	},
+    "require-dev" : {
+	    "phpunit/phpunit": "~5.0",
+	    "satooshi/php-coveralls": "~1.0"
+    },
+	"autoload" : {
+		"psr-4" : {
+			"Mouf\\Security\\DAO\\" : "src/"
+		}
+	},
+    "autoload-dev" : {
+  	  "psr-4" : {
+		"Mouf\\Security\\DAO\\" : "tests/"
+  	  }
+    },
+	"minimum-stability" : "dev",
+    "prefer-stable": true,
+	"extra" : {
+		"mouf" : {
+			"install" : [{
+					"type" : "class",
+					"class" : "Mouf\\Security\\DAO\\TablesInstaller",
+					"description" : "The install process of security.daos.tdbm creates patches creating the user/role/right tables."
+				}
+			],
+			"logo" : "icon.png"
+		}
+	}
+}
