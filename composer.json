@@ -2,12 +2,9 @@
 	"name" : "mouf/security.daos.tdbm",
 	"description" : "This package contains a basic user/role/right database model for TDBM.",
 	"keywords" : [
-		"ORM",
-		"mouf",
-		"persistance",
+		"security",
 		"DAO",
-		"bean",
-		"model"
+		"TDBM"
 	],
 	"homepage" : "http://mouf-php.com/packages/mouf/security.daos.tdbm",
 	"type" : "mouf-library",
@@ -21,7 +18,9 @@
 	"require" : {
 		"php" : ">=7.0",
 	    "mouf/database.tdbm" : "~4.0",
-		"mouf/database.patcher": "~2.0"
+		"mouf/database.patcher": "~2.0",
+		"mouf/security.userservice": "^2.1",
+		"mouf/security.rightsservice": "^2.0"
 	},
     "require-dev" : {
 	    "phpunit/phpunit": "~5.0",

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mouf\Utils\Log\Psr;
+namespace Mouf\Security\DAO;
 
 use Mouf\Database\Patcher\DatabasePatchInstaller;
 use Mouf\Installer\PackageInstallerInterface;
@@ -21,6 +21,8 @@ class TablesInstaller implements PackageInstallerInterface {
             "vendor/mouf/security.daos.tdbm/database/up/users-roles-rights.sql", // SQL patch file, relative to ROOT_PATH
             "vendor/mouf/security.daos.tdbm/database/down/users-roles-rights.sql"); // Optional SQL revert patch file, relative to ROOT_PATH
 
+        // TODO: apply patch
+        // TODO: regenerate DAOs.
 
         // Let's rewrite the MoufComponents.php file to save the component
         $moufManager->rewriteMouf();
