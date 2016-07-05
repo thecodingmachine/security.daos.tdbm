@@ -12,6 +12,7 @@ use Kls\Model\Bean\RolesRightBean;
 use Mouf\Database\TDBM\TDBMService;
 use Mouf\Database\TDBM\ResultIterator;
 use Mouf\Database\TDBM\ArrayIterator;
+use Mouf\Security\Rights\RightsRegistry;
 use Mouf\Security\RightsService\RightInterface;
 use Mouf\Security\RightsService\RightsDaoInterface;
 use Mouf\Security\UserService\UserDaoInterface;
@@ -31,24 +32,20 @@ class SecurityRightDao implements RightsDaoInterface
     protected $tdbmService;
 
     /**
-     * The list of all supported rights in the application, indexed by right name.
+     * The list of all supported rights in the application.
      *
-     * @var RightInterface[]
+     * @var RightsRegistry
      */
-    protected $rights;
+    protected $rightsRegistry;
 
     /**
-     * Sets the TDBM service used by this DAO.
-     *
-     * @param RightInterface[] $rights The list of all supported rights in the application.
+     * @param TDBMService $tdbmService Sets the TDBM service used by this DAO.
+     * @param RightsRegistry $rightsRegistry The list of all supported rights in the application.
      */
-    public function __construct(TDBMService $tdbmService, array $rights)
+    public function __construct(TDBMService $tdbmService, RightsRegistry $rightsRegistry)
     {
         $this->tdbmService = $tdbmService;
-        $this->rights = [];
-        foreach ($rights as $right) {
-            $this->rights[$right->getName()] = $right;
-        }
+        $this->rightsRegistry = $rightsRegistry;
     }
 
 
@@ -68,10 +65,7 @@ class SecurityRightDao implements RightsDaoInterface
 
         foreach ($roleRights as $roleRight) {
             $key = $roleRight->getRightKey();
-            if (!isset($this->rights[$key])) {
-                throw new \RuntimeException(sprintf('User with ID %s has a right in database %s that does not exists in the SecurityRightDao.', $user_id, $key));
-            }
-            $rights[] = $this->rights[$key];
+            $rights[] = $this->rightsRegistry->get($key);
         }
 
         return $rights;
@@ -97,10 +91,7 @@ class SecurityRightDao implements RightsDaoInterface
         }
 
         $key = $roleRight->getRightKey();
-        if (!isset($this->rights[$key])) {
-            throw new \RuntimeException(sprintf('User with ID %s has a right in database %s that does not exists in the SecurityRightDao.', $user_id, $key));
-        }
-        return $this->rights[$key];
+        return $this->rightsRegistry->get($key);
     }
 
     /**

@@ -28,12 +28,12 @@
     },
 	"autoload" : {
 		"psr-4" : {
-			"Mouf\\Security\\DAO\\" : "src/"
+			"Mouf\\Security\\" : "src/"
 		}
 	},
     "autoload-dev" : {
   	  "psr-4" : {
-		"Mouf\\Security\\DAO\\" : "tests/"
+		"Mouf\\Security\\" : "tests/"
   	  }
     },
 	"minimum-stability" : "dev",
