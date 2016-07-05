@@ -14,3 +14,42 @@ What is it?
 This package contains a set of TDBM DAOs adding a basic user / role / right support for Mouf security.
 
 This package will create tables for users, roles and rights.
+
+Installation
+------------
+
+Run:
+
+```
+composer require mouf/security.daos.tdbm
+```
+
+Then, go to the Mouf user interface.
+
+In Mouf:
+
+ - run the install tasks.
+ - apply the database patches
+ - regenerate TDBM DAOs
+
+At this point, you should have a database with 4 additional tables: `users`, `users_roles`, `roles`, `roles_rights`.
+
+Check the newly generated `UserBean` class.
+
+Change this class so that:
+
+- it extends `UserInterface`
+- it uses the `UserTrait`
+
+```php
+use Mouf\Security\DAO\UserTrait;
+use Mouf\Security\UserService\UserInterface;
+
+/**
+ * The UserBean class maps the 'users' table in database.
+ */
+class UserBean extends UserBaseBean implements UserInterface
+{
+    use UserTrait;
+}
+```

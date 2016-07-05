@@ -64,7 +64,7 @@ class SecurityUserDao implements UserDaoInterface
      * Returns a user from its token.
      *
      * @param string $token
-     * @return UserInterface
+     * @return UserInterface|null
      */
     public function getUserByToken($token)
     {
@@ -110,7 +110,7 @@ class SecurityUserDao implements UserDaoInterface
      *
      * @param mixed $filter The filter bag (see TDBMService::findObjects for complete description)
      * @param array $parameters The parameters associated with the filter
-     * @return UserBean
+     * @return UserBean|null
      */
     private function findOne($filter=null, array $parameters = [])
     {
