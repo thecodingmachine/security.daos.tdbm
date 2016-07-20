@@ -2,6 +2,7 @@
 
 namespace Mouf\Security\DAO;
 
+use Mouf\Actions\InstallUtils;
 use Mouf\Database\Patcher\DatabasePatchInstaller;
 use Mouf\Installer\PackageInstallerInterface;
 use Mouf\MoufManager;
