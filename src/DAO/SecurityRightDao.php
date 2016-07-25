@@ -11,21 +11,16 @@ namespace Mouf\Security\DAO;
 use Kls\Model\Bean\RolesRightBean;
 use Mouf\Database\TDBM\TDBMService;
 use Mouf\Database\TDBM\ResultIterator;
-use Mouf\Database\TDBM\ArrayIterator;
 use Mouf\Security\Rights\RightsRegistry;
 use Mouf\Security\RightsService\RightInterface;
 use Mouf\Security\RightsService\RightsDaoInterface;
 use Mouf\Security\UserService\UserDaoInterface;
-use Mouf\Security\UserService\UserInterface;
-
 
 /**
- * This class provides a TDBM implementation of the UserDaoInterface
- *
+ * This class provides a TDBM implementation of the UserDaoInterface.
  */
 class SecurityRightDao implements RightsDaoInterface
 {
-
     /**
      * @var TDBMService
      */
@@ -39,7 +34,7 @@ class SecurityRightDao implements RightsDaoInterface
     protected $rightsRegistry;
 
     /**
-     * @param TDBMService $tdbmService Sets the TDBM service used by this DAO.
+     * @param TDBMService    $tdbmService    Sets the TDBM service used by this DAO.
      * @param RightsRegistry $rightsRegistry The list of all supported rights in the application.
      */
     public function __construct(TDBMService $tdbmService, RightsRegistry $rightsRegistry)
@@ -48,17 +43,17 @@ class SecurityRightDao implements RightsDaoInterface
         $this->rightsRegistry = $rightsRegistry;
     }
 
-
     /**
      * Returns a list of all the rights for the user passed in parameter.
      *
      * @param string $user_id
+     *
      * @return array<RightInterface>
      */
     public function getRightsForUser($user_id)
     {
         $roleRights = $this->find([
-            'users.id' => $user_id
+            'users.id' => $user_id,
         ]);
 
         $rights = [];
@@ -77,34 +72,37 @@ class SecurityRightDao implements RightsDaoInterface
      *
      * @param string $user_id
      * @param string $right
+     *
      * @return RightInterface
      */
     public function getRightForUser($user_id, $right)
     {
         $roleRight = $this->findOne([
             'users.id' => $user_id,
-            'right_key' => $right
+            'right_key' => $right,
         ]);
 
         if ($roleRight === null) {
-            return null;
+            return;
         }
 
         $key = $roleRight->getRightKey();
+
         return $this->rightsRegistry->get($key);
     }
 
     /**
      * Get a list of RolesRightBean specified by its filters.
      *
-     * @param mixed $filter The filter bag (see TDBMService::findObjects for complete description)
-     * @param array $parameters The parameters associated with the filter
-     * @param mixed $orderBy The order string
+     * @param mixed $filter                The filter bag (see TDBMService::findObjects for complete description)
+     * @param array $parameters            The parameters associated with the filter
+     * @param mixed $orderBy               The order string
      * @param array $additionalTablesFetch A list of additional tables to fetch (for performance improvement)
-     * @param int $mode Either TDBMService::MODE_ARRAY or TDBMService::MODE_CURSOR (for large datasets). Defaults to TDBMService::MODE_ARRAY.
+     * @param int   $mode                  Either TDBMService::MODE_ARRAY or TDBMService::MODE_CURSOR (for large datasets). Defaults to TDBMService::MODE_ARRAY.
+     *
      * @return RolesRightBean[]|ResultIterator|ResultArray
      */
-    private function find($filter = null, array $parameters = [], $orderBy=null, array $additionalTablesFetch = [], $mode = null)
+    private function find($filter = null, array $parameters = [], $orderBy = null, array $additionalTablesFetch = [], $mode = null)
     {
         return $this->tdbmService->findObjects('roles_rights', $filter, $parameters, $orderBy, $additionalTablesFetch, $mode);
     }
@@ -112,11 +110,12 @@ class SecurityRightDao implements RightsDaoInterface
     /**
      * Get a single RolesRightBean specified by its filters.
      *
-     * @param mixed $filter The filter bag (see TDBMService::findObjects for complete description)
+     * @param mixed $filter     The filter bag (see TDBMService::findObjects for complete description)
      * @param array $parameters The parameters associated with the filter
+     *
      * @return RolesRightBean
      */
-    private function findOne($filter=null, array $parameters = [])
+    private function findOne($filter = null, array $parameters = [])
     {
         return $this->tdbmService->findObject('roles_rights', $filter, $parameters);
     }

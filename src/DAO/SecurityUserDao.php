@@ -9,23 +9,17 @@
 namespace Mouf\Security\DAO;
 
 use Mouf\Database\TDBM\TDBMService;
-use Mouf\Database\TDBM\ResultIterator;
-use Mouf\Database\TDBM\ArrayIterator;
 use Mouf\Security\Password\Api\ForgotYourPasswordDao;
 use Mouf\Security\Password\Exception\EmailNotFoundException;
 use Mouf\Security\Password\Exception\TokenNotFoundException;
 use Mouf\Security\UserService\UserDaoInterface;
 use Mouf\Security\UserService\UserInterface;
-use Ramsey\Uuid\Uuid;
-
 
 /**
- * This class provides a TDBM implementation of the UserDaoInterface
- *
+ * This class provides a TDBM implementation of the UserDaoInterface.
  */
 class SecurityUserDao implements UserDaoInterface, ForgotYourPasswordDao
 {
-
     /**
      * @var TDBMService
      */
@@ -41,25 +35,25 @@ class SecurityUserDao implements UserDaoInterface, ForgotYourPasswordDao
         $this->tdbmService = $tdbmService;
     }
 
-
     /**
      * Returns a user from its login and its password, or null if the login or credentials are false.
      *
      * @param string $login
      * @param string $password
+     *
      * @return UserInterface
      */
     public function getUserByCredentials($login, $password)
     {
-        $user = $this->findOne([ 'login' => $login ]);
+        $user = $this->findOne(['login' => $login]);
         if ($user === null) {
-            return null;
+            return;
         }
 
         if (password_verify($password, $user->getPassword())) {
             return $user;
         } else {
-            return NULL;
+            return;
         }
     }
 
@@ -67,14 +61,16 @@ class SecurityUserDao implements UserDaoInterface, ForgotYourPasswordDao
      * Returns a user from its token.
      *
      * @param string $token
+     *
      * @return UserInterface
      */
     public function getUserByToken($token)
     {
-        $user = $this->findOne([ 'token' => $token ]);
+        $user = $this->findOne(['token' => $token]);
         if ($user === null) {
             throw TokenNotFoundException::notFound($token);
         }
+
         return $user;
     }
 
@@ -91,9 +87,10 @@ class SecurityUserDao implements UserDaoInterface, ForgotYourPasswordDao
     }
 
     /**
-     * Returns a user from its ID
+     * Returns a user from its ID.
      *
      * @param string $id
+     *
      * @return UserInterface
      */
     public function getUserById($id)
@@ -102,24 +99,26 @@ class SecurityUserDao implements UserDaoInterface, ForgotYourPasswordDao
     }
 
     /**
-     * Returns a user from its login
+     * Returns a user from its login.
      *
      * @param string $login
+     *
      * @return UserInterface
      */
     public function getUserByLogin($login)
     {
-        return $this->findOne([ 'login' => $login ]);
+        return $this->findOne(['login' => $login]);
     }
 
     /**
      * Get a single UserBean specified by its filters.
      *
-     * @param mixed $filter The filter bag (see TDBMService::findObjects for complete description)
+     * @param mixed $filter     The filter bag (see TDBMService::findObjects for complete description)
      * @param array $parameters The parameters associated with the filter
+     *
      * @return UserInterface|null
      */
-    private function findOne($filter=null, array $parameters = [])
+    private function findOne($filter = null, array $parameters = [])
     {
         return $this->tdbmService->findObject('users', $filter, $parameters);
     }

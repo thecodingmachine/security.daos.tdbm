@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Mouf\Security\Rights;
-
 
 class NotFoundException extends \RuntimeException
 {

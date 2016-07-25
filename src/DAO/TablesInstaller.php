@@ -10,18 +10,20 @@ use Mouf\MoufManager;
 /**
  *
  */
-class TablesInstaller implements PackageInstallerInterface {
+class TablesInstaller implements PackageInstallerInterface
+{
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see \Mouf\Installer\PackageInstallerInterface::install()
      */
-    public static function install(MoufManager $moufManager) {
+    public static function install(MoufManager $moufManager)
+    {
         DatabasePatchInstaller::registerPatch($moufManager,
-            "createUserRoleRightTablesPatch",
-            "This patch is added by the mouf/security.daos.tdbm package. It creates users, users_roles, roles, roles_rights tables.",
-            "vendor/mouf/security.daos.tdbm/database/up/users-roles-rights.sql", // SQL patch file, relative to ROOT_PATH
-            "vendor/mouf/security.daos.tdbm/database/down/users-roles-rights.sql"); // Optional SQL revert patch file, relative to ROOT_PATH
-
+            'createUserRoleRightTablesPatch',
+            'This patch is added by the mouf/security.daos.tdbm package. It creates users, users_roles, roles, roles_rights tables.',
+            'vendor/mouf/security.daos.tdbm/database/up/users-roles-rights.sql', // SQL patch file, relative to ROOT_PATH
+            'vendor/mouf/security.daos.tdbm/database/down/users-roles-rights.sql'); // Optional SQL revert patch file, relative to ROOT_PATH
 
         // These instances are expected to exist when the installer is run.
         $tdbmService = $moufManager->getInstanceDescriptor('tdbmService');
@@ -45,15 +47,12 @@ class TablesInstaller implements PackageInstallerInterface {
             $Mouf_Security_DAO_SecurityUserDao->getConstructorArgumentProperty('tdbmService')->setValue($tdbmService);
         }
 
-
-
         // Lets bind UserDao and RightsDao to userService and rightsService
         $rightsService = $moufManager->getInstanceDescriptor('rightsService');
         $rightsService->getPublicFieldProperty('rightsDao')->setValue($Mouf_Security_DAO_SecurityRightDao);
 
         $userService = $moufManager->getInstanceDescriptor('userService');
         $userService->getPublicFieldProperty('userDao')->setValue($Mouf_Security_DAO_SecurityUserDao);
-
 
         // TODO: apply patch
         // TODO: regenerate DAOs.

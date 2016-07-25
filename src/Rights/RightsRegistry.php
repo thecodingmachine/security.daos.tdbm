@@ -1,7 +1,7 @@
 <?php
 
-
 namespace Mouf\Security\Rights;
+
 use Mouf\Security\RightsService\RightInterface;
 
 /**
@@ -31,7 +31,9 @@ class RightsRegistry
      * Returns a right by name.
      *
      * @param string $name
+     *
      * @return RightInterface
+     *
      * @throws NotFoundException
      */
     public function get(string $name) : RightInterface
@@ -39,6 +41,7 @@ class RightsRegistry
         if (!isset($this->rights[$name])) {
             throw NotFoundException::create($name);
         }
+
         return $this->rights[$name];
     }
 }
