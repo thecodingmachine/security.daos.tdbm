@@ -17,7 +17,7 @@
 	],
 	"require" : {
 		"php" : ">=7.0",
-	    "mouf/database.tdbm" : "~4.0",
+	    "mouf/database.tdbm" : "~4.1",
 		"mouf/database.patcher": "~2.0",
 		"mouf/security.userservice": "^2.1",
 		"mouf/security.rightsservice": "^2.0"

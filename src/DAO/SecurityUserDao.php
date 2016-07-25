@@ -11,16 +11,19 @@ namespace Mouf\Security\DAO;
 use Mouf\Database\TDBM\TDBMService;
 use Mouf\Database\TDBM\ResultIterator;
 use Mouf\Database\TDBM\ArrayIterator;
-use Kls\Model\Bean\UserBean;
+use Mouf\Security\Password\Api\ForgotYourPasswordDao;
+use Mouf\Security\Password\Exception\EmailNotFoundException;
+use Mouf\Security\Password\Exception\TokenNotFoundException;
 use Mouf\Security\UserService\UserDaoInterface;
 use Mouf\Security\UserService\UserInterface;
+use Ramsey\Uuid\Uuid;
 
 
 /**
  * This class provides a TDBM implementation of the UserDaoInterface
  *
  */
-class SecurityUserDao implements UserDaoInterface
+class SecurityUserDao implements UserDaoInterface, ForgotYourPasswordDao
 {
 
     /**
@@ -64,11 +67,15 @@ class SecurityUserDao implements UserDaoInterface
      * Returns a user from its token.
      *
      * @param string $token
-     * @return UserInterface|null
+     * @return UserInterface
      */
     public function getUserByToken($token)
     {
-        return $this->findOne([ 'token' => $token ]);
+        $user = $this->findOne([ 'token' => $token ]);
+        if ($user === null) {
+            throw TokenNotFoundException::notFound($token);
+        }
+        return $user;
     }
 
     /**
@@ -110,10 +117,48 @@ class SecurityUserDao implements UserDaoInterface
      *
      * @param mixed $filter The filter bag (see TDBMService::findObjects for complete description)
      * @param array $parameters The parameters associated with the filter
-     * @return UserBean|null
+     * @return UserInterface|null
      */
     private function findOne($filter=null, array $parameters = [])
     {
         return $this->tdbmService->findObject('users', $filter, $parameters);
+    }
+
+    /**
+     * Sets $token for user whose mail is $email, stores the token in database.
+     * Throws an EmailNotFoundException if the email is not part of the database.
+     *
+     * @param string $email
+     *
+     * @throws \Mouf\Security\Password\Api\EmailNotFoundException
+     */
+    public function setToken(string $email, string $token)
+    {
+        $user = $this->findOne(['email' => $email]);
+
+        if ($user === null) {
+            throw EmailNotFoundException::notFound($email);
+        }
+
+        $user->setToken($token);
+
+        $this->tdbmService->save($user);
+    }
+
+    /**
+     * Sets the password matching to $token and discards $token.
+     * Throws an TokenNotFoundException if the token is not part of the database.
+     *
+     * @param string $token
+     * @param string $password
+     *
+     * @throws \Mouf\Security\Password\Api\TokenNotFoundException
+     */
+    public function setPasswordAndDiscardToken(string $token, string $password)
+    {
+        $user = $this->getUserByToken($token);
+        $user->setPassword($password);
+        $user->setToken(null);
+        $this->tdbmService->save($user);
     }
 }
