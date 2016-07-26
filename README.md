@@ -53,3 +53,13 @@ class UserBean extends UserBaseBean implements UserInterface
     use UserTrait;
 }
 ```
+
+Adding new rights
+-----------------
+
+Available rights are listed in the `Mouf\Security\Rights\RightsRegistry`.
+The `RightsRegistry` contains a list of rights implementing the `RightInterface`.
+
+In order to add a new right, connect to Mouf, edit the `Mouf\Security\Rights\RightsRegistry` instance and drag'n'drop new rights in the `rights` property.
+
+
