@@ -17,11 +17,12 @@
 	],
 	"require" : {
 		"php" : ">=7.0",
-	        "mouf/database.tdbm" : "~4.1",
+		"mouf/database.tdbm" : "~4.1",
 		"mouf/database.patcher": "~2.0",
 		"mouf/security.userservice": "^2.1",
 		"mouf/security.rightsservice": "^2.0",
-		"mouf/security.forgot-your-password-interface": "^1.0"
+		"mouf/security.forgot-your-password-interface": "^1.0",
+		"mouf/security.user-management-ui-interface": "^1.0"
 	},
     "require-dev" : {
 	    "phpunit/phpunit": "~5.0",

@@ -17,7 +17,7 @@ use Mouf\Security\RightsService\RightsDaoInterface;
 use Mouf\Security\UserService\UserDaoInterface;
 
 /**
- * This class provides a TDBM implementation of the UserDaoInterface.
+ * This class provides a TDBM implementation of the RightsDaoInterface.
  */
 class SecurityRightDao implements RightsDaoInterface
 {

@@ -12,13 +12,15 @@ use Mouf\Database\TDBM\TDBMService;
 use Mouf\Security\Password\Api\ForgotYourPasswordDao;
 use Mouf\Security\Password\Exception\EmailNotFoundException;
 use Mouf\Security\Password\Exception\TokenNotFoundException;
+use Mouf\Security\UserManagement\Api\UserListDao;
 use Mouf\Security\UserService\UserDaoInterface;
 use Mouf\Security\UserService\UserInterface;
+use Porpaginas\Result;
 
 /**
  * This class provides a TDBM implementation of the UserDaoInterface.
  */
-class SecurityUserDao implements UserDaoInterface, ForgotYourPasswordDao
+class SecurityUserDao implements UserDaoInterface, ForgotYourPasswordDao, UserListDao
 {
     /**
      * @var TDBMService
@@ -159,5 +161,28 @@ class SecurityUserDao implements UserDaoInterface, ForgotYourPasswordDao
         $user->setPassword($password);
         $user->setToken(null);
         $this->tdbmService->save($user);
+    }
+
+    /**
+     * Returns a list of users, as a Porpaginas result.
+     * This list can be filtered based on the $filters array, that can be really anything based on the filters you implement.
+     *
+     * @param array $filters
+     * @param $orderBy
+     * @param $direction
+     * @return Result
+     */
+    public function search(array $filters, $orderBy, $direction) : Result
+    {
+        $sql = null;
+        $parameters = [];
+        if (isset($filters['q'])) {
+            $sql = 'login LIKE :login';
+            $parameters = [
+                'login' => '%'.$filters['q'].'%'
+            ];
+        }
+
+        return $this->tdbmService->findObjects('users', $sql, $parameters);
     }
 }
