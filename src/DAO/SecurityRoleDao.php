@@ -77,6 +77,9 @@ class SecurityRoleDao implements RoleDao
      */
     public function getRoles(UserInterface $user)
     {
+        if ($user->getId() === null) {
+            return [];
+        }
         return $this->find([
             'users_roles.user_id' => $user->getId()
         ]);
