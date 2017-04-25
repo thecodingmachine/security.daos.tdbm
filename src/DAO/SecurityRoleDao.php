@@ -11,7 +11,7 @@ namespace Mouf\Security\DAO;
 use Kls\Model\Bean\RolesRightBean;
 use Mouf\Database\TDBM\TDBMService;
 use Mouf\Database\TDBM\ResultIterator;
-use Mouf\Security\Model\Role;
+use Mouf\Security\UserManagement\Impl\Role;
 use Mouf\Security\Rights\RightsRegistry;
 use Mouf\Security\RightsService\RightInterface;
 use Mouf\Security\RightsService\RightsDaoInterface;
