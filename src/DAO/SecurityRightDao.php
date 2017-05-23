@@ -9,8 +9,8 @@
 namespace Mouf\Security\DAO;
 
 use Kls\Model\Bean\RolesRightBean;
-use Mouf\Database\TDBM\TDBMService;
-use Mouf\Database\TDBM\ResultIterator;
+use TheCodingMachine\TDBM\TDBMService;
+use TheCodingMachine\TDBM\ResultIterator;
 use Mouf\Security\Rights\RightsRegistry;
 use Mouf\Security\RightsService\RightInterface;
 use Mouf\Security\RightsService\RightsDaoInterface;

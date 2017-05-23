@@ -8,7 +8,7 @@
 
 namespace Mouf\Security\DAO;
 
-use Mouf\Database\TDBM\TDBMService;
+use TheCodingMachine\TDBM\TDBMService;
 use Mouf\Security\Password\Api\ForgotYourPasswordDao;
 use Mouf\Security\Password\Exception\EmailNotFoundException;
 use Mouf\Security\Password\Exception\TokenNotFoundException;
