@@ -34,7 +34,7 @@ class CreateUserRoleRightPatch extends AbstractSchemaMigrationPatch
         $db->table('roles_rights')
             ->column('role_id')->references('roles')
             ->column('right_key')->string(255)->then()
-            ->primaryKey('role_id', 'right_key');
+            ->primaryKey(['role_id', 'right_key']);
 
     }
 
