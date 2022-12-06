@@ -19,9 +19,9 @@
 		"php" : "^8.0",
 		"mouf/database.tdbm" : "~5.3",
 		"mouf/database.patcher": "~2.0",
-		"mouf/security.userservice": "^2.1",
-		"mouf/security.rightsservice": "^2.0",
-		"mouf/security.forgot-your-password-interface": "^1.0",
+		"mouf/security.userservice": "^3.0",
+		"mouf/security.rightsservice": "^3.0",
+		"mouf/security.forgot-your-password-interface": "^1.1",
 		"mouf/security.user-management-ui-interface": "^1.0"
 	},
     "require-dev" : {
@@ -52,7 +52,8 @@
 	},
 	"config": {
 		"allow-plugins": {
-			"mouf/mouf-installer": true
+			"mouf/mouf-installer": true,
+			"mindplay/composer-locator": true
 		}
 	}
 }
